@@ -42,7 +42,7 @@ pluginBundle {
     description = 'Gradle Plugin to generate a Podcast RSS feed. It uses Markdown files for episodes.'
     tags = ['podcast', 'rss', 'itunes']
     plugins {
-        greetingsPlugin {
+        podcastPlugin {
           displayName = 'Gradle Podcast plugin'
         }
       }
