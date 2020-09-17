@@ -5,6 +5,10 @@
 - https://bintray.com/beta/#/groovycalamari/maven/podcast[Artifacts]
 - https://sdelamo.github.io/podcast-gradle-plugin/groovydoc/index.html[Groovy Docs]
 
+== Installation
+
+Check the installation instructions in the https://plugins.gradle.org/plugin/groovycalamari.podcast[Gradle Plugin Portal].
+
 == Example
 
 To generate a https://help.apple.com/itc/podcasts_connect/#/itcbaf351599[Podcast Feed] such as:
