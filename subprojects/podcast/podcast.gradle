@@ -21,6 +21,11 @@
     id 'groovy'
 }
 
+config {
+    bintray    { enabled = true }
+    publishing { enabled = true }
+}
+
 repositories {
     jcenter()
 }
