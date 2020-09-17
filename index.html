@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Podcast Gradle Plugin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="./asciidoctor.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Podcast Gradle Plugin</h1>
+<div class="details">
+<span id="revnumber">version 0.0.1</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_example">1. Example</a>
+<ul class="sectlevel2">
+<li><a href="#_episodes">1.1. Episodes</a></li>
+<li><a href="#_extension">1.2. Extension</a></li>
+</ul>
+</li>
+<li><a href="#_extension_2">2. Extension</a>
+<ul class="sectlevel2">
+<li><a href="#_language_codes">2.1. Language codes</a></li>
+<li><a href="#_categories">2.2. Categories</a></li>
+</ul>
+</li>
+<li><a href="#_useful_links">3. Useful Links</a></li>
+<li><a href="#_project_build">4. Project Build</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/sdelamo/podcast-gradle-plugin">Code Repository</a></p>
+</li>
+<li>
+<p><a href="https://github.com/sdelamo/podcast-gradle-plugin/releases">Releases</a></p>
+</li>
+<li>
+<p><a href="https://bintray.com/beta/#/groovycalamari/maven/podcast">Artifacts</a></p>
+</li>
+<li>
+<p><a href="https://sdelamo.github.io/podcast-gradle-plugin/groovydoc/index.html">Groovy Docs</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example"><a class="anchor" href="#_example"></a>1. Example</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To generate a <a href="https://help.apple.com/itc/podcasts_connect/#/itcbaf351599">Podcast Feed</a> such as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;rss</span> <span class="attribute-name">xmlns:content</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://purl.org/rss/1.0/modules/content/</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">version</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">xmlns:itunes</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.itunes.com/dtds/podcast-1.0.dtd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;channel&gt;</span>
+        <span class="tag">&lt;title&gt;</span>Hiking Treks<span class="tag">&lt;/title&gt;</span>
+        <span class="tag">&lt;link&gt;</span>https://www.apple.com/itunes/podcasts/<span class="tag">&lt;/link&gt;</span>
+        <span class="tag">&lt;image&gt;</span>
+            <span class="tag">&lt;title&gt;</span>Hiking Treks<span class="tag">&lt;/title&gt;</span>
+            <span class="tag">&lt;link&gt;</span>https://www.apple.com/itunes/podcasts/<span class="tag">&lt;/link&gt;</span>
+            <span class="tag">&lt;url&gt;</span>https://applehosted.podcasts.apple.com/hiking_treks/artwork.png<span class="tag">&lt;/url&gt;</span>
+        <span class="tag">&lt;/image&gt;</span>
+        <span class="tag">&lt;description&gt;</span>Love to get outdoors and discover nature<span class="entity">&amp;amp;</span>apos;s treasures? Hiking Treks is the show for you. We review hikes and excursions, review outdoor gear and interview a variety of naturalists and adventurers. Look for new episodes each week.<span class="tag">&lt;/description&gt;</span>
+        <span class="tag">&lt;language&gt;</span>en-us<span class="tag">&lt;/language&gt;</span>
+        <span class="tag">&lt;copyright&gt;</span><span class="entity">&amp;amp;</span>#169; 2020 John Appleseed<span class="tag">&lt;/copyright&gt;</span>
+        <span class="tag">&lt;category</span> <span class="attribute-name">text</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Sports</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+            <span class="tag">&lt;category</span> <span class="attribute-name">text</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Wilderness</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+            <span class="tag">&lt;/category&gt;</span>
+        <span class="tag">&lt;/category&gt;</span>
+        <span class="tag">&lt;itunes:author&gt;</span>The Sunset Explorers<span class="tag">&lt;/itunes:author&gt;</span>
+        <span class="tag">&lt;itunes:type&gt;</span>serial<span class="tag">&lt;/itunes:type&gt;</span>
+        <span class="tag">&lt;itunes:owner&gt;</span>
+            <span class="tag">&lt;itunes:name&gt;</span>Sunset Explorers<span class="tag">&lt;/itunes:name&gt;</span>
+            <span class="tag">&lt;itunes:email&gt;</span>mountainscape@icloud.com<span class="tag">&lt;/itunes:email&gt;</span>
+        <span class="tag">&lt;/itunes:owner&gt;</span>
+        <span class="tag">&lt;itunes:image</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">https://applehosted.podcasts.apple.com/hiking_treks/artwork.png</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/itunes:image&gt;</span>
+        <span class="tag">&lt;itunes:category</span> <span class="attribute-name">text</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Sports</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+            <span class="tag">&lt;itunes:category</span> <span class="attribute-name">text</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Wilderness</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/itunes:category&gt;</span>
+        <span class="tag">&lt;/itunes:category&gt;</span>
+        <span class="tag">&lt;itunes:explicit&gt;</span>no<span class="tag">&lt;/itunes:explicit&gt;</span>
+        <span class="tag">&lt;itunes:block&gt;</span>no<span class="tag">&lt;/itunes:block&gt;</span>
+    <span class="tag">&lt;item&gt;</span>
+        <span class="tag">&lt;title&gt;</span>Hiking Treks Trailer<span class="tag">&lt;/title&gt;</span>
+        <span class="tag">&lt;enclosure</span> <span class="attribute-name">length</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">498537</span><span class="delimiter">&quot;</span></span>
+                   <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">audio/mpeg</span><span class="delimiter">&quot;</span></span>
+                   <span class="attribute-name">url</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://example.com/podcasts/everything/AllAboutEverythingEpisode4.mp3</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/enclosure&gt;</span>
+        <span class="tag">&lt;guid&gt;</span>aae20190418<span class="tag">&lt;/guid&gt;</span>
+        <span class="tag">&lt;itunes:episodeType&gt;</span>trailer<span class="tag">&lt;/itunes:episodeType&gt;</span>
+        <span class="tag">&lt;itunes:title&gt;</span>Hiking Treks Trailer<span class="tag">&lt;/itunes:title&gt;</span>
+        <span class="tag">&lt;content:encoded&gt;</span><span class="entity">&amp;lt;</span>p<span class="entity">&amp;gt;</span>The Sunset Explorers share tips, techniques and recommendations for
+great hikes and adventures around the United States. Listen on <span class="entity">&amp;lt;</span>a href=&quot;https://www.apple.com/itunes/podcasts/&quot;<span class="entity">&amp;gt;</span>Apple Podcasts<span class="entity">&amp;lt;</span>/a<span class="entity">&amp;gt;</span><span class="entity">&amp;lt;</span>/p<span class="entity">&amp;gt;</span>
+        <span class="tag">&lt;/content:encoded&gt;</span>
+        <span class="tag">&lt;itunes:duration&gt;</span>1079<span class="tag">&lt;/itunes:duration&gt;</span>
+        <span class="tag">&lt;itunes:episode&gt;</span>1<span class="tag">&lt;/itunes:episode&gt;</span>
+        <span class="tag">&lt;itunes:season&gt;</span>1<span class="tag">&lt;/itunes:season&gt;</span>
+        <span class="tag">&lt;itunes:explicit&gt;</span>no<span class="tag">&lt;/itunes:explicit&gt;</span>
+    <span class="tag">&lt;/item&gt;</span>
+    <span class="tag">&lt;item&gt;</span>
+        <span class="tag">&lt;title&gt;</span>S01 EP02 Garden of the Gods Wilderness<span class="tag">&lt;/title&gt;</span>
+        <span class="tag">&lt;enclosure</span> <span class="attribute-name">length</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">498537</span><span class="delimiter">&quot;</span></span>
+                   <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">audio/mpeg</span><span class="delimiter">&quot;</span></span>
+                   <span class="attribute-name">url</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://example.com/podcasts/everything/AllAboutEverythingEpisode4.mp3</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/enclosure&gt;</span>
+        <span class="tag">&lt;guid&gt;</span>aae20190425<span class="tag">&lt;/guid&gt;</span>
+        <span class="tag">&lt;itunes:episodeType&gt;</span>full<span class="tag">&lt;/itunes:episodeType&gt;</span>
+        <span class="tag">&lt;itunes:title&gt;</span>S01 EP02 Garden of the Gods Wilderness<span class="tag">&lt;/itunes:title&gt;</span>
+        <span class="tag">&lt;content:encoded&gt;</span><span class="entity">&amp;lt;</span>p<span class="entity">&amp;gt;</span>Wilderness Area Garden of the Gods in Illinois is a delightful spot for an extended hike.<span class="entity">&amp;lt;</span>/p<span class="entity">&amp;gt;</span>
+<span class="tag">&lt;/content:encoded&gt;</span>
+        <span class="tag">&lt;itunes:duration&gt;</span>839<span class="tag">&lt;/itunes:duration&gt;</span>
+        <span class="tag">&lt;itunes:episode&gt;</span>2<span class="tag">&lt;/itunes:episode&gt;</span>
+        <span class="tag">&lt;itunes:season&gt;</span>1<span class="tag">&lt;/itunes:season&gt;</span>
+        <span class="tag">&lt;itunes:explicit&gt;</span>no<span class="tag">&lt;/itunes:explicit&gt;</span>
+    <span class="tag">&lt;/item&gt;</span>
+    <span class="tag">&lt;/channel&gt;</span>
+<span class="tag">&lt;/rss&gt;</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_episodes"><a class="anchor" href="#_episodes"></a>1.1. Episodes</h3>
+<div class="paragraph">
+<p>Create a markdown file for each episode.</p>
+</div>
+<div class="paragraph">
+<p>Use metadata at the beginning of documents. Metadata must be separated from the rest of the document by three dashes.</p>
+</div>
+<div class="listingblock">
+<div class="title">episodes/aae20190425.md</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="markdown">---
+episodeType: FULL
+episode: 2
+season: 1
+title: S01 EP02 Garden of the Gods Wilderness
+enclosureLength: 498537
+enclosureType: audio/mpeg
+enclosureUrl: http://example.com/podcasts/everything/AllAboutEverythingEpisode4.mp3
+guid: aae20190425
+pubDate: 2018-09-18T01:15:00Z[GMT]
+duration: 839
+explicit: false
+---
+
+Wilderness Area Garden of the Gods in Illinois is a delightful spot for an extended hike.</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">episodes/aae20190425.md</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="markdown">---
+episodeType: TRAILER
+episode: 1
+season: 1
+title: Hiking Treks Trailer
+enclosureLength: 498537
+enclosureType: audio/mpeg
+enclosureUrl: http://example.com/podcasts/everything/AllAboutEverythingEpisode4.mp3
+guid: aae20190418
+pubDate: 2019-01-08T01:15:00Z[GMT]
+duration: 1079
+explicit: false
+---
+
+The Sunset Explorers share tips, techniques and recommendations for
+          great hikes and adventures around the United States. Listen on [Apple Podcasts](https://www.apple.com/itunes/podcasts/)</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can write your episode&#8217;s description as markdown which will be render to HTML in your Podcast RSS Feed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_extension"><a class="anchor" href="#_extension"></a>1.2. Extension</h3>
+<div class="paragraph">
+<p>In your build file configure the metadata of your podcast with an extension:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">podcast {
+    episodes = file(<span class="string"><span class="delimiter">&quot;</span><span class="content">episodes</span><span class="delimiter">&quot;</span></span>)
+    title = <span class="string"><span class="delimiter">'</span><span class="content">Hiking Treks</span><span class="delimiter">'</span></span>
+    link = <span class="string"><span class="delimiter">'</span><span class="content">https://www.apple.com/itunes/podcasts/</span><span class="delimiter">'</span></span>
+    language = <span class="string"><span class="delimiter">'</span><span class="content">en-us</span><span class="delimiter">'</span></span>
+    copyright = <span class="string"><span class="delimiter">'</span><span class="content">&amp;#169; 2020 John Appleseed</span><span class="delimiter">'</span></span>
+    description = <span class="string"><span class="delimiter">'</span><span class="content">Love to get outdoors and discover nature&amp;apos;s treasures? Hiking Treks is the show for you. We review hikes and excursions, review outdoor gear and interview a variety of naturalists and adventurers. Look for new episodes each week.</span><span class="delimiter">'</span></span>
+    author = <span class="string"><span class="delimiter">&quot;</span><span class="content">The Sunset Explorers</span><span class="delimiter">&quot;</span></span>
+    type = <span class="string"><span class="delimiter">'</span><span class="content">SERIAL</span><span class="delimiter">'</span></span>
+    owner {
+        name = <span class="string"><span class="delimiter">&quot;</span><span class="content">Sunset Explorers</span><span class="delimiter">&quot;</span></span>
+        email = <span class="string"><span class="delimiter">&quot;</span><span class="content">mountainscape@icloud.com</span><span class="delimiter">&quot;</span></span>
+    }
+    image {
+        url = <span class="string"><span class="delimiter">&quot;</span><span class="content">https://applehosted.podcasts.apple.com/hiking_treks/artwork.png</span><span class="delimiter">&quot;</span></span>
+    }
+    block = <span class="predefined-constant">false</span>
+    categories = <span class="string"><span class="delimiter">'</span><span class="content">SPORTS_WILDERNESS</span><span class="delimiter">'</span></span>
+    explicit = <span class="predefined-constant">false</span>
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extension_2"><a class="anchor" href="#_extension_2"></a>2. Extension</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">property</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">required</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">example</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the show title</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">owner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the podcast contact information</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre>podcast {
+    ...
+    owner {
+        name = "Sunset Explorers"
+        email = "mountainscape@icloud.com"
+    }
+}</pre>
+</div>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">subtitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">image</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The artwork for the show. <code>link</code>, <code>title</code>, <code>width</code> and <code>height</code> are optional</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre>podcast {
+    ...
+    image {
+        url = "https://media.podcast.groovycalamari.com/groovycalamari.png"
+        link = "http://groovycalamari.com"
+        title = 'Groovy Calamari'
+        width = 3000
+        height = 3000
+    }
+}</pre>
+</div>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">link</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the website associated with a podcast</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copyright</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">language</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The language spoken on the show.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">e.g. <code>en-us</code>. See list below for options</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">keywords</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">comma separated list of keywords</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The show description</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The type of the show</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EPISODIC</code> or <code>SERIAL</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">block</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wether to remove the podcast from the Apple directory.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true or false</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">categories</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The show category information</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See list below</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">explicit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The podcast parental advisory information.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> or <code>false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">episodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Folder where you save your episode&#8217;s markdown files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>podcast { episodes = file('episodes') &#8230;&#8203; }</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_language_codes"><a class="anchor" href="#_language_codes"></a>2.1. Language codes</h3>
+<div class="paragraph">
+<p><code>af</code>, <code>sq</code>,<code>eu</code>,<code>be</code>,<code>bg</code>,<code>ca</code>,<code>zh-cn</code>,<code>zh-tw</code>,<code>hr</code>,
+<code>cs</code>,<code>da</code>,<code>nl</code>,<code>nl-be</code>,<code>nl-nl</code>,<code>en</code>,<code>en-au</code>,<code>en-bz</code>,<code>en-ca</code>,<code>en-ie</code>,<code>en-jm</code>,<code>en-nz</code>,<code>en-ph</code>,<code>en-za</code>,<code>en-tt</code>,<code>en-gb</code>,<code>en-us</code>,<code>en-zw</code>,` et`,<code>fo</code>,<code>fi</code>,<code>fr</code>,<code>fr-be</code>,<code>fr-ca</code>,<code>fr-fr</code>,<code>fr-lu</code>,<code>fr-mc</code>,<code>fr-ch</code>,<code>gl</code>,<code>gd</code>,<code>de</code>,<code>de-at</code>,<code>de-de</code>,<code>de-li</code>,<code>de-lu</code>,<code>de-ch</code>,<code>el</code>,<code>haw</code>,<code>hu</code>,<code>is</code>,<code>in</code>,<code>ga</code>,<code>it</code>,<code>it-it</code>,<code>it-ch</code>,<code>ja</code>,<code>ko</code>,<code>mk</code>,<code>no</code>,<code>pl</code>,<code>pt</code>,<code>pt-br</code>,<code>pt-pt</code>,<code>ro</code>,<code>ro-mo</code>,<code>ro-ro</code>,<code>ru</code>,<code>ru-mo</code>,<code>ru-ru</code>,<code>sr</code>,<code>sk</code>,<code>sl</code>,<code>es</code>,<code>es-ar</code>,<code>es-bo</code>,<code>es-cl</code>,<code>es-co</code>,<code>es-cr</code>,<code>es-do</code>,<code>es-ec</code>,<code>es-sv</code>,<code>es-gt</code>,<code>es-hn</code>,<code>es-mx</code>,<code>es-ni</code>,<code>es-pa</code>,<code>es-py</code>,<code>es-pe</code>,<code>es-pr</code>,<code>es-es</code>,<code>es-uy</code>,<code>es-ve</code>,<code>sv</code>,<code>sv-fi</code>,<code>sv-se</code>,<code>tr-uk</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_categories"><a class="anchor" href="#_categories"></a>2.2. Categories</h3>
+<div class="paragraph">
+<p><code>ARTS</code>, <code>ARTS_BOOKS</code>, <code>ARTS_DESIGN</code>, <code>ARTS_FASHION_AND_BEAUTY</code>, <code>ARTS_FOOD</code>, <code>ARTS_LITERATURE</code>, <code>ARTS_PERFORMING_ARTS</code>, <code>ARTS_VISUAL_ARTS</code>
+<code>BUSINESS</code>, <code>BUSINESS_BUSINESS_NEWS</code>, <code>BUSINESS_CAREERS</code>, <code>BUSINESS_INVESTING</code>, <code>BUSINESS_MANAGEMENT</code>, <code>BUSINESS_MARKETING</code>, <code>BUSINESS_NONPROFIT</code>, <code>BUSINESS_MANAGEMENT_AND_MARKETING</code>, <code>BUSINESS_SHOPPING</code>, <code>COMEDY</code>, <code>COMEDY_INTERVIEWS</code>, <code>COMEDY_IMPROV</code>, <code>COMEDY_STANDUP</code>, <code>EDUCATION</code>, <code>EDUCATION_COURSES</code>, <code>EDUCATION_HOWTO</code>, <code>EDUCATION_SELFIMPROVEMENT</code>, <code>EDUCATION_EDUCATIONAL_TECHNOLOGY</code>, <code>EDUCATION_HIGHER_EDUCATION</code>, <code>EDUCATION_K12</code>, <code>EDUCATION_LANGUAGE_COURSES</code>, <code>EDUCATION_TRAINING</code>, <code>GOVERNMENT``HISTORY</code>, GAMES_AND_HOBBIES`,<code>GAMES_AND_HOBBIES_AUTOMOTIVE</code>,<code>GAMES_AND_HOBBIES_AVIATION</code>,<code>GAMES_AND_HOBBIES_HOBBIES</code>,<code>GAMES_AND_HOBBIES_OTHER_GAMES</code>,<code>GAMES_AND_HOBBIES_VIDEO_GAMES</code>,<code>GOVERNMENT_ORGANIZATIONS</code>,<code>GOVERNMENT_ORGANIZATIONS_LOCAL</code>,<code>GOVERNMENT_ORGANIZATIONS_NATIONAL</code>,<code>GOVERNMENT_ORGANIZATIONS_NONPROFIT</code>,<code>GOVERNMENT_ORGANIZATIONS_REGIONAL</code> ,<code>HEALTH</code>,<code>HEALTH_FITNESS</code>,<code>HEALTH_MEDICINE</code>,<code>HEALTH_MENTAL_HEALTH</code>,<code>HEALTH_NUTRITION</code>,<code>HEALTH_SEXUALITY</code>,<code>HEALTH_ALTERNATIVE_HEALTH</code>,<code>HEALTH_FITNESS_NUTRITION</code>,<code>HEALTH_SELF_HELP</code>, <code>KIDS_AND_FAMILY</code>,<code>KIDS_AND_FAMILY_EDUCATION_FOR_KIDS</code>,<code>KIDS_AND_FAMILY_PARENTING</code>,<code>KIDS_AND_FAMILY_PETS_AND_ANIMALS</code>,<code>KIDS_AND_FAMILY_STORIES_FOR_KIDS</code>, <code>LEISURE</code>,<code>LEISURE_ANIMATION_AND_MANGA</code>,<code>LEISURE_AUTOMOTIVE</code>,<code>LEISURE_AVIATION</code>,<code>LEISURE_CRAFTS</code>,<code>LEISURE_GAMES</code>,<code>LEISURE_HOBBIES</code>,<code>LEISURE_HOME_AND_GARDEN</code>,<code>LEISURE_VIDEO_GAMES</code>, <code>MUSIC</code>,<code>MUSIC_COMMENTARY</code>,<code>MUSIC_HISTORY</code>,<code>MUSIC_INTERVIEWS</code>, <code>NEWS_AND_POLITICS</code>, <code>NEWS</code>,<code>NEWS_BUSINESS_NEWS</code>,<code>NEW_DAILY_NEWS</code>,<code>NEWS_ENTERTAINMENT_NEWS</code>,<code>NEWS_NEWS_COMMENTARY</code>,<code>NEWS_POLITICS</code>,<code>NEWS_SPORTS_NEWS</code>,<code>NEWS_TECH_NEWS</code>, <code>RELIGION_AND_SPIRITUALITY</code>,<code>RELIGION_AND_SPIRITUALITY_BUDDHISM</code>,<code>RELIGION_AND_SPIRITUALITY_CHRISTIANITY</code>,<code>RELIGION_AND_SPIRITUALITY_HINDUISM</code>,<code>RELIGION_AND_SPIRITUALITY_ISLAM</code>,<code>RELIGION_AND_SPIRITUALITY_JUDAISM</code>,<code>RELIGION_AND_SPIRITUALITY_OTHER</code>,<code>RELIGION_AND_SPIRITUALITY_SPIRITUALITY</code>, <code>SCIENCE</code>,<code>SCIENCE_ASTRONOMY</code>,<code>SCIENCE_CHEMISTRY</code>,<code>SCIENCE_EARTH_SCIENCES</code>,<code>SCIENCE_LIFE_SCIENCES</code>,<code>SCIENCE_MATHEMATICS</code>,<code>SCIENCE_NATURAL_SCIENCES</code>,<code>SCIENCE_NATURE</code>,<code>SCIENCE_PHYSICS</code>,<code>SCIENCE_SOCIAL_SCIENCES</code>, <code>SCIENCE_MEDICINE</code>,<code>SCIENCE_MEDICINE_MEDICINE</code>,<code>SCIENCE_MEDICINE_NATURAL_SCIENCES</code>,<code>SCIENCE_MEDICINE_SOCIAL_SCIENCES</code>, <code>SOCIETY_CULTURE</code>,<code>SOCIETY_CULTURE_HISTORY</code>,<code>SOCIETY_CULTURE_PERSONAL_JOURNALS</code>,<code>SOCIETY_CULTURE_PHILOSOPHY</code>,<code>SOCIETY_CULTURE_PLACES_AND_TRAVEL</code>,<code>SOCIETY_CULTURE_RELATIONSHIPS</code>, <code>SOCIETY_AND_CULTURE</code>,<code>SOCIETY_AND_CULTURE_DOCUMENTARY</code>,<code>SOCIETY_AND_CULTURE_HISTORY</code>,<code>SOCIETY_AND_CULTURE_PERSONAL_JOURNALS</code>,<code>SOCIETY_AND_CULTURE_PHILOSOPHY</code>,<code>SOCIETY_AND_CULTURE_PLACES_AND_TRAVEL</code>,<code>SOCIETY_AND_CULTURE_RELATIONSHIPS</code>, <code>SPORTS</code>,<code>SPORTS_BASEBALL</code>,<code>SPORTS_BASKETBALL</code>,<code>SPORTS_CRICKET</code>,<code>SPORTS_FANTASY</code>,<code>SPORTS_FOOTBALL</code>,<code>SPORTS_GOLF</code>,<code>SPORTS_HOCKEY</code>,<code>SPORTS_RUGBY</code>,<code>SPORTS_RUNNING</code>,<code>SPORTS_SOCCE</code>,<code>SPORTS_SWIMMING</code>,<code>SPORTS_TENNIS</code>,<code>SPORTS_OUTDOOR</code>,<code>SPORTS_VOLLEYBALL</code>,<code>SPORTS_WILDERNESS</code>,<code>SPORTS_WRESTLING</code>, <code>SPORTS_AND_RECREATION</code>,<code>SPORTS_AND_RECREATION_AMATEUR</code>,<code>SPORTS_AND_RECREATION_COLLEGE_AND_HIGH_SCHOOL</code>,<code>SPORTS_AND_RECREATION_OUTDOOR</code>,<code>SPORTS_AND_RECREATION_PROFESSIONAL</code>, <code>TRUE_CRIME</code>, <code>TECHNOLOGY</code>,<code>TECHNOLOGY_Gadgets</code>,<code>TECHNOLOGY_TECH_NEWS</code>,<code>TECHNOLOGY_PODCASTING</code>,<code>TECHNOLOGY_SOFTWARE_HOWTO</code>, <code>TV_AND_FILM</code>,<code>TV_AND_FILM_AFTERSHOWS</code>,<code>TV_AND_FILM_FILM_HISTORY</code>,<code>TV_AND_FILM_FILM_INTERVIEWS</code>,<code>TV_AND_FILM_FILM_REVIEWS</code>,<code>TV_AND_FILM_TV_REVIEWS</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_useful_links"><a class="anchor" href="#_useful_links"></a>3. Useful Links</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://help.apple.com/itc/podcasts_connect/#/itc9267a2f12">Apple Podcast categories</a></p>
+</li>
+<li>
+<p><a href="https://help.apple.com/itc/podcasts_connect/#/itcb54353390">A podcaster&#8217;s guide to RSS</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_project_build"><a class="anchor" href="#_project_build"></a>4. Project Build</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This library uses <a href="https://gradle.org">Gradle</a>. It uses the plugins:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://kordamp.org/kordamp-gradle-plugins/">Kordamp Gradle Plugins</a></p>
+</li>
+<li>
+<p><a href="https://plugins.gradle.org/plugin/com.gradle.build-scan">Gradle Build Scan Plugins</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 0.0.1<br>
+Last updated 2020-09-17 09:25:03 +0200
+</div>
+</div>
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</body>
+</html>
