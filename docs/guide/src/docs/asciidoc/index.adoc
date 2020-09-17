@@ -3,7 +3,7 @@
 - https://github.com/sdelamo/podcast-gradle-plugin[Code Repository]
 - https://github.com/sdelamo/podcast-gradle-plugin/releases[Releases]
 - https://bintray.com/beta/#/groovycalamari/maven/podcast[Artifacts]
-- https://sdelamo.github.io/podcast-gradle-plugin/javadoc/index.html[Java Docs]
+- https://sdelamo.github.io/podcast-gradle-plugin/groovydoc/index.html[Groovy Docs]
 
 == Example
 
