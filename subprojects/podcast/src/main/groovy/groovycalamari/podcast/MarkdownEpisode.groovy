@@ -39,10 +39,15 @@ class MarkdownEpisode {
     private static final String KEY_EPISODE = 'episode'
     private static final String KEY_SEASON = 'season'
     private static final String KEY_EXPLICIT = 'explicit'
+    private static final String KEY_PUB_DATE = 'pubDate'
 
     String filename
     Map<String, String> metadata
     String content
+
+    String getPubDate() {
+        metadata[KEY_PUB_DATE]
+    }
 
     Integer getEpisode() {
         metadata[KEY_EPISODE] ? Integer.valueOf(metadata[KEY_EPISODE]) : null

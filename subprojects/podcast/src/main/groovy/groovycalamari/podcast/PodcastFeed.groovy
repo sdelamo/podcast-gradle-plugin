@@ -37,8 +37,20 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import io.micronaut.rss.itunespodcast.ItunesPodcast
 
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+
 @CompileStatic
 class PodcastFeed extends DefaultTask {
+    static DateFormat JSON_FEED_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
+    static {
+        TimeZone tz = TimeZone.getTimeZone("Europe/Madrid")
+        JSON_FEED_FORMAT.setTimeZone(tz)
+    }
     static final String COLON = ":"
     static final String SEPARATOR = "---"
     public static final String SUFFIX_MD = ".md"
@@ -235,37 +247,43 @@ class PodcastFeed extends DefaultTask {
     private ItunesPodcastEpisode episodeFromMarkdown(MarkdownEpisode markdownEpisode) {
         ItunesPodcastEpisode.Builder builder = ItunesPodcastEpisode.builder(markdownEpisode.title)
         if (markdownEpisode.episodeType) {
-            builder.episodeType(markdownEpisode.episodeType)
+            builder = builder.episodeType(markdownEpisode.episodeType)
         }
         if (markdownEpisode.guid) {
-            builder.guid(markdownEpisode.guid)
+            builder = builder.guid(markdownEpisode.guid)
         }
         if (markdownEpisode.duration) {
-            builder.duration(markdownEpisode.duration)
+            builder = builder.duration(markdownEpisode.duration)
         }
         if (markdownEpisode.image) {
-            builder.image(markdownEpisode.image)
+            builder = builder.image(markdownEpisode.image)
         }
         if (markdownEpisode.episode) {
-            builder.episode(markdownEpisode.episode)
+            builder = builder.episode(markdownEpisode.episode)
         }
         if (markdownEpisode.season) {
-            builder.season(markdownEpisode.season)
+            builder = builder.season(markdownEpisode.season)
         }
         if (markdownEpisode.explicit) {
-            builder.explicit(markdownEpisode.explicit)
+            builder = builder.explicit(markdownEpisode.explicit)
         }
         if (markdownEpisode.author) {
-            builder.author(markdownEpisode.author)
+            builder = builder.author(markdownEpisode.author)
+        }
+        if (markdownEpisode.pubDate) {
+            Date pubDate = parseDate(markdownEpisode.pubDate)
+            builder = builder.pubDate(ZonedDateTime.of(Instant.ofEpochMilli(pubDate.time)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime(), ZoneId.of("GMT")))
         }
         if (markdownEpisode.subtitle) {
-            builder.subtitle(markdownEpisode.subtitle)
+            builder = builder.subtitle(markdownEpisode.subtitle)
         }
         if (markdownEpisode.summary) {
-            builder.summary(markdownEpisode.summary)
+            builder = builder.summary(markdownEpisode.summary)
         }
         if (markdownEpisode.content) {
-            builder.contentEncoded(MarkdownUtil.htmlFromMarkdown(markdownEpisode.content))
+            builder = builder.contentEncoded(MarkdownUtil.htmlFromMarkdown(markdownEpisode.content))
         }
 
         RssItemEnclosure.Builder enclosureBuilder = RssItemEnclosure.builder()
@@ -446,6 +464,17 @@ class PodcastFeed extends DefaultTask {
                 content: empty ? file.text : lines.join("\n"))
     }
 
+
+    static Date parseDate(String date) throws ParseException {
+        if (!date) {
+            throw new GradleException("Could not parse date $date")
+        }
+        try {
+            return JSON_FEED_FORMAT.parse(date)
+        } catch(ParseException e) {
+            throw new GradleException("Could not parse date $date")
+        }
+    }
 
 
 }
