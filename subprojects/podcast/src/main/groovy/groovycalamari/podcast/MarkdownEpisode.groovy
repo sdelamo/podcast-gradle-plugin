@@ -17,9 +17,11 @@
  */
 package groovycalamari.podcast
 
+import com.mpatric.mp3agic.Mp3File
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 import io.micronaut.rss.itunespodcast.ItunesPodcastEpisodeType
+import org.jetbrains.annotations.Nullable
 
 @ToString
 @CompileStatic
@@ -44,6 +46,7 @@ class MarkdownEpisode {
     String filename
     Map<String, String> metadata
     String content
+    Mp3File mp3File
 
     String getPubDate() {
         metadata[KEY_PUB_DATE]
@@ -62,7 +65,15 @@ class MarkdownEpisode {
     }
 
     String getDuration() {
-        metadata[KEY_DURATION]
+        String duration = metadata[KEY_DURATION]
+        if (duration) {
+            return duration
+        }
+        Mp3File mp3 = getMp3File()
+        if (mp3) {
+            return DurationUtils.durationFromSeconds(mp3.getLengthInSeconds().toInteger())
+        }
+        null
     }
 
     String getImage() {
@@ -95,12 +106,42 @@ class MarkdownEpisode {
 
     ItunesPodcastEpisodeType getEpisodeType() {
         metadata[KEY_EPISODE_TYPE] ?  metadata[KEY_EPISODE_TYPE]?.toUpperCase() as ItunesPodcastEpisodeType : null
+
+    }
+
+    @Nullable
+    Mp3File getMp3File() {
+        if (this.mp3File != null) {
+            return this.mp3File
+        }
+        if (enclosureUrl) {
+            this.mp3File = Mp3FileUtils.mp3FileFromUrl(enclosureUrl)
+            return this.mp3File
+        }
+        null
+    }
+
+    @Nullable
+    Integer getEnclosureLength() {
+        if (metadata[KEY_ENCLOSURE_LENGTH]) {
+            return Integer.valueOf(metadata[KEY_ENCLOSURE_LENGTH])
+        }
+        Mp3File mp3 = mp3File
+        if (mp3) {
+            return mp3.getLength()
+        }
+        null
+    }
+
+    @Nullable
+    String getEnclosureUrl() {
+        metadata[KEY_ENCLOSURE_URL]
     }
 
     Enclosure getEnclosure() {
-        new Enclosure(url: metadata[KEY_ENCLOSURE_URL],
+        new Enclosure(url: enclosureUrl,
                 type: metadata[KEY_ENCLOSURE_TYPE],
-                length: metadata[KEY_ENCLOSURE_LENGTH] ? Integer.valueOf(metadata[KEY_ENCLOSURE_LENGTH]) : null)
+                length: enclosureLength)
     }
 }
 
